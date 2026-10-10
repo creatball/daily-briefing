@@ -1,0 +1,53 @@
+name: Publish daily briefing
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'incoming/**'
+      - 'site/**'
+      - 'build.py'
+      - 'index.html'
+      - 'tests/**'
+      - '.github/workflows/publish.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: daily-briefing-pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Validate importer
+        run: python -m unittest discover -s tests
+      - name: Build validated issues or retain labeled preview
+        shell: python
+        run: |
+          from pathlib import Path
+          import shutil
+          import subprocess
+          incoming = list(Path('incoming').glob('*.html'))
+          if incoming:
+              subprocess.run(['python', 'build.py'], check=True)
+          else:
+              Path('dist').mkdir(exist_ok=True)
+              shutil.copyfile('index.html', 'dist/index.html')
+              print('No real issue yet: publishing the explicitly labeled preview.')
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Deploy validated site
+        id: deploy
+        uses: actions/deploy-pages@v4
