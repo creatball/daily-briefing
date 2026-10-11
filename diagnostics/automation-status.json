@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-11T00:37:19.016Z",
+  "schedule": "Asia/Tokyo 08:50",
+  "configurationUpdateStatus": "saved_and_read_back",
+  "changedPublishingRules": [
+    "Explicit ongoing authorization applies only to the verified briefing for the current generation-start Asia/Tokyo date, submitted to creatball/daily-briefing main at incoming/YYYY-MM-DD.html; no other files, credentials, or private data may be published.",
+    "Preserve original HTML attachment; fetch existing file and compare text, skip identical content, use existing blob SHA for updates, and verify deployment and live issue data before declaring publication success.",
+    "For failures, record actual tool name, redacted raw error, available HTTP status or approval reason; distinguish pre-API approval denial from GitHub HTTP responses; stop after a denial without retries or alternate write channels.",
+    "An interactive write or an unchanged-file read does not prove unattended scheduled write capability; only a genuine background run can verify it."
+  ],
+  "backgroundRunCapability": "unavailable",
+  "backgroundTestStatus": "not_run",
+  "backgroundTestEvidence": null,
+  "originalFailureRawError": null,
+  "remainingBlocker": "No original scheduler-run write-denial log is accessible and no trigger/run-now interface for the original scheduled task is available. Unattended GitHub writing and deployment must be verified by the next real scheduled run."
+}
